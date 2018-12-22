@@ -45,12 +45,12 @@ Note: We only want original ratings (no retweets) that have images. Then, we wil
 Missing values is a quality issue, while remove columns is a tidness issue. I will deal with this point in quality section.
 
 * Erroneous datatypes:
-        * in_reply_to_status_id :        is a float not an integer
-        * in_reply_to_user_id:          is a float not an integer
-        * retweeted_status_id:           is a float not an integer
-        * retweeted_status_user_id:      is a float not an integer
-        * retweeted_status_timestamp:    is a string not a datetime
-        * timestamp:                     is a string not a datetime
+ - in_reply_to_status_id :        is a float not an integer
+ - in_reply_to_user_id:          is a float not an integer
+ - retweeted_status_id:           is a float not an integer
+ - retweeted_status_user_id:      is a float not an integer
+ - retweeted_status_timestamp:    is a string not a datetime
+ - timestamp:                     is a string not a datetime
 
 * rating_denominator variable has values <10.  Text tweets show errors when extrating 	these numbers.      
 * There are four categories for source variable. there is some irrelevant text: html code.   
