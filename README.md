@@ -36,50 +36,50 @@ In this step, a tweeter API object is created and then used to gather tweeter da
 Access our data is the second step. We can assess data for quality and tidiness using visual assessment by scrolling through the data in your preferred software application (Google Sheets, Excel, a text editor, etc.) and programmatic assessment by using code to view specific portions and summaries of the data (pandas' head, tail, and info methods, for example). Data quality dimensions are: completeness, accuracy, consistency and validity. In the section below, we report quality and tidiness issues in our data.
 
 ### Quality issues in our data:
-Twitter archive data table (first data source)
 
-o	Missing values:
+#### Twitter archive data table (first data source)
+* Missing values:
 
 In retweeted_status_user_id, retweeted_status_timestamp, in_reply_to_status_id and in_reply_to_user_id  variables.
 Note: We only want original ratings (no retweets) that have images. Then, we will not need retweeted_status_id, retweeted_status_user_id, and retweeted_status_timestamp anymore.).
 Missing values is a quality issue, while remove columns is a tidness issue. I will deal with this point in quality section.
 
-o	Erroneous datatypes:
-        - in_reply_to_status_id         is a float not an integer
-        - in_reply_to_user_id           is a float not an integer
-        - retweeted_status_id           is a float not an integer
-        - retweeted_status_user_id      is a float not an integer
-        - retweeted_status_timestamp    is a string not a datetime
-        - timestamp                     is a string not a datetime
+* Erroneous datatypes:
+        * in_reply_to_status_id :        is a float not an integer
+        * in_reply_to_user_id:          is a float not an integer
+        * retweeted_status_id:           is a float not an integer
+        * retweeted_status_user_id:      is a float not an integer
+        * retweeted_status_timestamp:    is a string not a datetime
+        * timestamp:                     is a string not a datetime
 
-o	rating_denominator variable has values <10.  Text tweets show errors when extrating 	these numbers.      
-o	There are four categories for source variable. there is some irrelevant text: html code.   
-o	One character or invalid name.
-o	Same dog with two stage: some values in doggo, floofer, pupper and puppo columns need to  be revised. 
-o	Values in doggo, floofer, pupper and puppo columns are bad represented.
-o	Null values are represented in the table sometimes by None and sometimes by NaN.
+* rating_denominator variable has values <10.  Text tweets show errors when extrating 	these numbers.      
+* There are four categories for source variable. there is some irrelevant text: html code.   
+* One character or invalid name.
+* Same dog with two stage: some values in doggo, floofer, pupper and puppo columns need to  be revised. 
+* Values in doggo, floofer, pupper and puppo columns are bad represented.
+* Null values are represented in the table sometimes by None and sometimes by NaN.
 
-Image predictions data table (second data source)
-o	There are duplicate records.
+#### Image predictions data table (second data source)
+* There are duplicate records.
 
-Twitter extension data table (Third data source)
-o	type of tweet_id, favorite_count and retweet_count is string not integer.
-o	truncated column has one value: False.
+#### Twitter extension data table (Third data source)
+* type of tweet_id, favorite_count and retweet_count is string not integer.
+* truncated column has one value: False.
 
 ### Tidiness issues in our data
 
-Twitter archive data table (first data source)
-o	doggo, floofer, pupper and puppo column should be merged into on column: stage
-o	Rating values should be one column 
+#### Twitter archive data table (first data source)
+* doggo, floofer, pupper and puppo column should be merged into on column: stage
+* Rating values should be one column 
 
-Image predictions data table (second data source)
-o	p1, p2 and p3 columns should be merged into two columns: prediction algorithms and breed prediction.
-o	p1_conf, p2_conf and p3_conf columns should be merged into one column: prediction coefficient.
-o	p1_dog, p2_dog and p3_dog should be merged into one column: is_a_Dog
-o	This table should be concatenated with twitter archive table.
+#### Image predictions data table (second data source)
+* p1, p2 and p3 columns should be merged into two columns: prediction algorithms and breed prediction.
+* p1_conf, p2_conf and p3_conf columns should be merged into one column: prediction coefficient.
+* p1_dog, p2_dog and p3_dog should be merged into one column: is_a_Dog
+* This table should be concatenated with twitter archive table.
 
-Twitter extension data table (third data source)
-o	This table should be concatenated with twitter archive table.
+#### Twitter extension data table (third data source)
+* This table should be concatenated with twitter archive table.
 
 ## 3.	Clean data
 In this step of wrangling data process, we implement the proposals listed in the Access section. The more precise and clearly the assessment, the more aisily Clean step will be.
