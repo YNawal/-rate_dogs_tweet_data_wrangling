@@ -1,4 +1,4 @@
-# WerateDogs tweet data wrangling
+# WeRateDogs tweet data wrangling
 
 # Desription
 
@@ -80,3 +80,17 @@ o	This table should be concatenated with twitter archive table.
 ## 3.	Clean data
 In this step of wrangling data process, we implement the proposals listed in the Access section. The more precise and clearly the assessment, the more aisily Clean step will be.
 
+
+# Files description
+##Code files:
+wrangle_rate_dogs.ipynb: contains all action I have done during wrangling data process.
+wrangle_rate_dogs.htm:l an html version of the previous file
+analyse_rate_dogs_report.rmd: contains a slight analysis on cleaned data
+  analyse_rate_dogs_report.html: an html version of the previous file
+  
+## Data files
+.data/twitter-archive-enhanced.csv: contains tweet arche of @rate_dogs user.
+.data/image-predictions.tsv: contains prediction result of the image posted in tweets.
+.data/tweet_json.txt: a data extracted using tweepy library. Contain additional information of tweets stored in twitter-archive-enhanced file.
+.data/twitter_archive_master.csv:  contains all previous cleaned and combined data.
+ 
