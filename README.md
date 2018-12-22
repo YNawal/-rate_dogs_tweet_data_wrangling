@@ -16,10 +16,13 @@ The process takes place in 3 steps
 The data we worked on were collected from three sources:
 
 a.	Provided as a csv file:  'twitter-archive-enhanced.csv'
+
 This file contains data extracted from @dog_rates user tweets. It contains basic tweet data (tweet ID, timestamp, text, etc.) for all 5000+ of its tweets as they stood on August 1, 2017.
 
 b.	Provided as an url file:
+
 url = 'https://d17h27t6h515a5.cloudfront.net/topher/2017/August/599fd2ad_image-predictions/image-predictions.tsv'
+
 Using 'requests' package, I have downloaded the image-predictions tsv file, saved it in the current dirrectory, then load it as a pandas dataframe in the notebook.
 What contains this file?
 Each dog image posted with the tweet text are passed in different pattern recognition algorithms. The prediction coefficient as the pattern predicted of each algorithm (3) are gathered in a sheet and stored in tsv file.
@@ -36,6 +39,7 @@ Access our data is the second step. We can assess data for quality and tidiness 
 Twitter archive data table (first data source)
 
 o	Missing values:
+
 In retweeted_status_user_id, retweeted_status_timestamp, in_reply_to_status_id and in_reply_to_user_id  variables.
 Note: We only want original ratings (no retweets) that have images. Then, we will not need retweeted_status_id, retweeted_status_user_id, and retweeted_status_timestamp anymore.).
 Missing values is a quality issue, while remove columns is a tidness issue. I will deal with this point in quality section.
@@ -82,15 +86,15 @@ In this step of wrangling data process, we implement the proposals listed in the
 
 
 # Files description
-##Code files:
-wrangle_rate_dogs.ipynb: contains all action I have done during wrangling data process.
-wrangle_rate_dogs.htm:l an html version of the previous file
-analyse_rate_dogs_report.rmd: contains a slight analysis on cleaned data
-  analyse_rate_dogs_report.html: an html version of the previous file
+## Code files:
+* wrangle_rate_dogs.ipynb: contains all action I have done during wrangling data process.
+* wrangle_rate_dogs.htm:l an html version of the previous file
+* analyse_rate_dogs_report.rmd: contains a slight analysis on cleaned data
+* analyse_rate_dogs_report.html: an html version of the previous file
   
 ## Data files
-.data/twitter-archive-enhanced.csv: contains tweet arche of @rate_dogs user.
-.data/image-predictions.tsv: contains prediction result of the image posted in tweets.
-.data/tweet_json.txt: a data extracted using tweepy library. Contain additional information of tweets stored in twitter-archive-enhanced file.
-.data/twitter_archive_master.csv:  contains all previous cleaned and combined data.
+* data/twitter-archive-enhanced.csv: contains tweet arche of @rate_dogs user.
+* data/image-predictions.tsv: contains prediction result of the image posted in tweets.
+* data/tweet_json.txt: a data extracted using tweepy library. Contain additional information of tweets stored in twitter-archive-enhanced file.
+* data/twitter_archive_master.csv:  contains all previous cleaned and combined data.
  
