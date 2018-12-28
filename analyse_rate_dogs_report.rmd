@@ -1,0 +1,233 @@
+
+---
+title: <span style="color:blue">"WeRateDogs Exploratory Data Analysis"</span>  
+author: "Nawal YALA"
+---    
+
+<div style="text-align: justify;">  
+
+> In this work I will present an analyse and vizualization of the tweet archive of Twitter user @dog_rates, also known as WeRateDogs. WeRateDogs is a Twitter account that rates people's dogs with a humorous comment about the dog. These ratings almost always have a denominator of 10. The numerators, though? Almost always greater than 10. 11/10, 12/10, 13/10, etc. Why? Because "they're good dogs Brent." WeRateDogs has over 4 million followers and has received international media coverage.
+To more detail about this data, its structure and variables, please see the wrangling  process that I have done on it in the same directory.
+
+```{r echo=FALSE , message=FALSE, warning=FALSE, packages}
+# Load all of the packages that you end up using in your analysis in this code
+# chunk.
+
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(reshape2)
+library(jpeg)
+```
+
+```{r echo=FALSE}
+
+setwd('E:/NanoDegree/Wrangling/Projet')
+rt <- read.csv('twitter_archive_master.csv')
+```
+
+
+<span style="color:blue">Overview on WeRateDogs tweet dataset and its structure </span> 
+
+```{r echo=FALSE}
+str(rt)
+```
+
+WeRateDogs dataset consists of 5922 observations and 17 variables.
+
+```{r}
+rt$jpg_url <- toString(rt$jpg_url)
+```
+
+# Univariate Plots Section
+
+<span style="color:blue">Question: </span> What the most utility used by WeRateDogs to post tweets
+
+```{r echo=FALSE}
+ggplot( aes(x = source, y = ..prop.., group =1),  data = rt%>%filter(pred_algo =='algo1'))+
+  geom_bar(color="steelblue", fill="white")+
+    theme(aspect.ratio = 1/1)
+```
+
+
+<span style="color:blue">Question: </span>  How i the evolution of tweet number across year
+
+```{r echo=FALSE}
+# Add year column 
+rt$year <- year(rt$timestamp)
+
+```
+
+```{r echo=FALSE}
+ggplot(aes(x = year), data = rt%>%filter(pred_algo =='algo1'))+
+  geom_bar(color="steelblue", fill="white")
+```
+
+
+Tweets are gathered  until August 1st, 2017. However we observe a 40% increase in tweets number in 2016 compared to 2015.
+
+
+<span style="color:blue">Question: </span>  What is the most popular tweet?
+
+First we get the max favorite_count / retweet_count
+
+```{r echo=FALSE}
+summary(rt$favorite_count)
+```
+Then we extract the tweet text and the dog image
+
+
+```{r echo=FALSE}
+text <- rt%>%filter( favorite_count == 164649, pred_algo =='algo1')%>%select(text)
+jpg_url <- rt%>%filter( favorite_count == 164649, pred_algo =='algo1')%>%select(jpg_url)
+```
+
+```{r echo=FALSE}
+text
+```
+
+
+
+```{r echo=FALSE}
+jj <- readJPEG('popu.jpg',native=TRUE)
+plot(0:1,0:1,type="n",ann=FALSE,axes=FALSE)
+rasterImage(jj,0,0,1,1)
+```
+
+
+
+<span style="color:blue">Question: </span>  Which dog has the higher rating value?
+
+
+```{r echo=FALSE}
+summary(rt$Rating)
+```
+
+
+```{r echo=FALSE}
+text <- rt%>%filter( Rating == 177.600, pred_algo =='algo1')%>%select(text)
+jpg_url <- rt%>%filter( Rating == 177.600, pred_algo =='algo1')%>%select(jpg_url)
+```
+
+```{r echo=FALSE}
+text
+```
+
+```{r echo=FALSE}
+jpg_url <- paste( unlist(jpg_url), collapse='')
+destfile <- paste("E:/NanoDegree/Wrangling/Projet/","popu.jpg",sep="")
+
+download.file(jpg_url, destfile , mode="wb")
+
+```
+
+
+```{r echo=FALSE}
+jj <- readJPEG('HR.jpg',native=TRUE)
+plot(0:1,0:1,type="n",ann=FALSE,axes=FALSE)
+rasterImage(jj,0,0,1,1)
+```
+
+
+
+<span style="color:blue">Question: </span>  How is the distribution of favorite_count and retweet_count variables?
+
+```{r echo=FALSE}
+ggplot(aes(x = favorite_count ),  data = rt%>%filter(pred_algo =='algo1'))+
+  geom_histogram( binwidth = 1000, color="steelblue", fill="white")+
+  scale_x_continuous(breaks = seq(0,50000,5000),limits = c(0,50000))
+```
+
+
+
+```{r echo=FALSE}
+ggplot(aes(x = retweet_count ),  data = rt%>%filter(pred_algo =='algo1'))+
+  geom_histogram( binwidth = 500, color="steelblue", fill="white")+
+  scale_x_continuous(breaks = seq(0,30000,2000),limits = c(0,30000))
+```
+
+
+
+Tweets are more favorited thant retweeted.
+
+
+<span style="color:blue">Question: </span>  How is the distribution of dog rating values.
+
+```{r echo=FALSE}
+ggplot( aes(x = Rating),  data = rt%>%filter(pred_algo =='algo1'))+
+  geom_histogram( binwidth = 0.05,  color="steelblue", fill="white")+
+  scale_x_continuous(breaks = seq(0,5,0.2), limits = c(0,3.5))
+
+```
+
+
+Almost normal distribution
+
+
+```{r echo=FALSE}
+ggplot( aes(x = " ", y = Rating),  data = rt%>%filter(pred_algo =='algo1'))+
+  geom_boxplot( color="steelblue", fill="white")+
+  scale_y_log10()+
+    theme(aspect.ratio = 1/1)
+```
+
+
+Many outliers. Median Rating values is just over 1 (boxplot) and mean is around 1 also (histogram). 
+
+
+
+
+
+<span style="color:blue">Question: </span> 
+Each dog image in the WeRateDogs tweet dataset is passed to 3 different pattern recognition algorithms. Let's know how each algorithm was accurate
+
+
+```{r echo=FALSE}
+ggplot( aes(x = is_a_dog, fill = pred_algo), data = rt)+
+  geom_bar(position = "dodge2")+
+  scale_fill_brewer(palette="Dark2")+
+  theme(aspect.ratio = 1/1)
+```
+
+
+algo2 is the most accurate algorithm.
+
+
+
+
+<span style="color:blue">Question: </span>  What were the dog stages?
+
+
+```{r echo=FALSE}
+ggplot( aes(x = stage ),  data = rt%>%filter(pred_algo =='algo1'))+
+  geom_bar(color="steelblue", fill="white")+
+  theme(aspect.ratio = 1/1)
+```
+
+
+Most dogs are not given a satge.
+
+
+
+# Bivariate Plots Section
+
+Let's know which dog stage has higer reating value.
+
+
+```{r echo=FALSE}
+ggplot( aes(x = stage, y = Rating ),  data = rt%>%filter(pred_algo =='algo1'))+
+  geom_point( position = "jitter", alpha =0.4)+
+  scale_y_continuous(limits = c(0,3.5))
+```
+
+pupper dogs has a little higher rating values represent by the outliers.
+
+
+
+
+# Reference: 
+
+[how to download and display an image from an URL in R?](https://stackoverflow.com/questions/29110903/how-to-download-and-display-an-image-from-an-url-in-r)
+
+[Convert a list into a string (for a url)](https://stackoverflow.com/questions/30861769/convert-a-list-into-a-string)
+</div>
